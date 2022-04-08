@@ -1,16 +1,3 @@
-<?php if (!$this->request->isPost()) {?>
-<div class="container">
-<h1 class="d-flex justify-content-center align-items-center">WELCOME TO WORLD OF APIS </h1>
-    <div class="row height d-flex justify-content-center align-items-center">
+<h1>Login via Spotify </h1>
 
-        <div class="col-md-8">
-        <h3 class="d-flex justify-content-center align-items-center">Search City</h3>
-            <div class="search"> <i class="fa fa-search"></i>
-            <?php echo $this->tag->form("/"); ?>
-             <input type="text" name="q" class="form-control" action="/" method ="POST"placeholder="Search Cities...."> <button class="btn btn-primary">Search</button> </div>
-
-            </form>
-        </div>
-    </div>
-</div>
-<?php }?>
+<a href='<?php echo $link;?>'>Login </a>
