@@ -1,3 +1,66 @@
-<h1>Login via Spotify </h1>
+<?php if (!$this->cookies->has("login-action")) {   ?>
+    <h1>Login via Spotify </h1>
+    <a href='<?php echo $link; ?>'>Login </a>
+<?php } else { ?>
+    <!-- When user is Logged In  -->
 
-<a href='<?php echo $link;?>'>Login </a>
+    <h1>Search Spotify </h1>
+    <form class="example" action="" method="POST">
+        <!-- Check Boxes  -->
+        <!-- Track -->
+        <input type="checkbox" id="track" name="track" value="track" checked>
+        <label for="Track">Track </label>
+        <!-- Show  -->
+        <input type="checkbox" id="show" name="show" value="show" checked>
+        <label for="show">Show </label>
+        <!-- episode  -->
+        <input type="checkbox" id="episode" name="episode" value="episode" checked>
+        <label for="Episode">Episode </label>
+        <!-- album  -->
+        <input type="checkbox" id="album" name="album" value="album" checked>
+        <label for="album">Album </label>
+        <!-- artist  -->
+        <input type="checkbox" id="artist" name="artist" value="artist" checked>
+        <label for="artist">Artist </label>
+        <!-- playlist  -->
+        <input type="checkbox" id="playlist" name="playlist" value="playlist" checked>
+        <label for="playlist">Playlist </label>
+
+        <!-- Search Form -->
+        <input type="text" placeholder="Search....." name="search">
+        <!-- Button -->
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+    <!-- If Searched Results -->
+    <?php if (isset($res)) { ?>
+        <!-- Lookking For tracks  -->
+        <?php if (isset($res->tracks)) { ?>
+         <h3>Tracks </h3>
+            <?php foreach ($res->tracks->items as $key => $value) { ?>
+                <div class="card d-inline-block m-4" style="width: 18rem;">
+                
+                    <img src="<?php print_r($value->album->images[0]->url)?>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $value->name?></h5>
+                        <p class="card-text"><?php foreach ($value->artists as $k=>$v){echo $v->name." ,";}; ?></h5>.</p>
+                    </div>
+
+                    <div class="card-body">
+                    <audio controls>
+                    <source src="<?php echo $value->preview_url?>" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                    </audio>
+                       
+                        <a href="<?php echo $value->external_urls->spotify?>" class="card-link">Play On Spotify</a> <br>
+                        <a href="<?php echo "playlist/addToPlaylist/".$value->id?>" class="card-link">Add To Playlist</a>
+                    </div>
+                </div>
+
+
+
+            <?php } ?>
+            <!--End OF FOR EACH 
+        <?php } ?>  <!-End Of Tracks Conditional
+    <?php } ?>
+<?php } ?>

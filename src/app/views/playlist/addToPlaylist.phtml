@@ -1,0 +1,6 @@
+<?php if (isset($res)) { ?>
+<h2>Choose playList</h2>
+<?php  foreach($res->items as $key =>$value){ ?>
+    <div><a href="<?php echo "/playlist/addToPlaylistComplete/".$value->id."/".$id ?>" >  <?php echo $value->name;}?></a></div>
+
+<?php } ?>

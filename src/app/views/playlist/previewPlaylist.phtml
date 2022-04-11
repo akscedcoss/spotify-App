@@ -1,0 +1,7 @@
+<?php if (isset($res)) {   ?>
+<h2>Your Playlist </h2>
+<?php  foreach($res->items as $key =>$value){ ?>
+    <div> <?php echo $value->track->name?></div>
+
+<?php } ?>
+<?php } ?>

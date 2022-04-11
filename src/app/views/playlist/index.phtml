@@ -1,0 +1,34 @@
+<form class="example" action="" method="POST">
+    <!-- Add Form -->
+    <h3>Create New Playlist</h3>
+
+  <label for="fname">Name of playlist</label><br>
+  <input type="text" id="name" name="name"><br>
+  <br><br><label for="lname">Desc :</label><br>
+  <input type="text" id="dec" name="desc"><br> <br>
+  <br>
+ 
+<br><input type="submit" value="Create New playlist">
+</form>
+<?php if (isset($res)) echo " <br>"; {
+    foreach ($res->items as $key => $value) {  ?>
+
+        <div class="card d-inline-block m-4" style="width: 18rem;">
+
+            <img src="<?php echo $value->images[0]->url ?>" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><?php echo $value->name ?></h5>
+                <p class="card-text"><?php echo $value->description ?></h5>.</p>
+            </div>
+
+            <div class="card-body">
+
+                <a href="<?php echo "/playlist/previewPlaylist/".$value->id; ?>" class="card-link">Preview PlayList</a> <br>
+                <a href="<?php echo $value->external_urls->spotify ?>" class="card-link">Play On Spotify</a> <br>
+            </div>
+        </div>
+
+    <?php } ?>
+    <!-- End of for loop -->
+<?php } ?>
+<!-- End of if res Is set -->
