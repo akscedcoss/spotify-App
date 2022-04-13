@@ -13,7 +13,8 @@ use Phalcon\Config;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
 $config = new Config([]);
-
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager as EventsManager;
 // Define some absolute path constants to aid in locating resources
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
@@ -25,6 +26,12 @@ $loader->registerDirs(
     [
         APP_PATH . "/controllers/",
         APP_PATH . "/models/",
+    ]
+);
+$loader->registerNamespaces(
+    [
+        'App\Components' =>  APP_PATH .'/components',
+        'App\Listener' =>APP_PATH .'/Listener'
     ]
 );
 
@@ -49,10 +56,22 @@ $container->set(
         return $url;
     }
 );
+// even Managment Start 
+$eventsManager = new EventsManager();
+$eventsManager->attach(
+    'notifications',
+    new App\Listener\NotificationsListener()
+);
 
+$eventsManager->attach(
+    'application:beforeHandleRequest',
+    new App\Listener\NotificationsListener()
+);
+
+$container->set('eventsManager', $eventsManager);
 $application = new Application($container);
 
-
+$application->setEventsManager($eventsManager);
 //  Container For cookies 
 $container->set(
     'cookies',

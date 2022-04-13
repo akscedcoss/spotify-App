@@ -12,6 +12,7 @@ class PlaylistController extends Controller
 {
     public function   getJsonResponseUsingHeaders($url, $headers, $method = 'GET')
     {
+        $url = $url;
         try {
 
             $client = new Client(
@@ -24,10 +25,26 @@ class PlaylistController extends Controller
             return $response;
         } catch (RequestException $e) {
 
-            if ($e->getCode() == '401') {
-                echo "Token EXpiredd..... Please re Login";
-            }
-            echo $e->getMessage();
+         
+            $loginCookie = $this->cookies->get("login-action");
+            // Get the cookie's value 
+            $value = $loginCookie->getValue();
+
+
+            //Fire event to check Setting 
+            $eventsManager = $this->eventsManager;
+            $data = $this->eventsManager->fire('notifications:beforeSend', $this, $value);
+            // Fire event End 
+            echo "<pre>";
+            print_r($data);
+            // Set Cookie For login 
+            $value=json_decode($value);
+            $this->cookies->set(
+                "login-action",
+                json_encode(["access_token" => $data->access_token, "refresh_token" => $value->refresh_token]),
+                time() + 15 * 86400
+            );
+        
         }
     }
     //  Display ALl Playlist
@@ -64,8 +81,7 @@ class PlaylistController extends Controller
             'Authorization' => 'Bearer ' . $value->access_token,
         ];
         // print_r(json_encode($this->getJsonResponseUsingHeaders($url, $header, $method = 'GET')));
-        $this->view->res=$this->getJsonResponseUsingHeaders($url, $header, $method = 'GET');
-     
+        $this->view->res = $this->getJsonResponseUsingHeaders($url, $header, $method = 'GET');
     }
     //  Add To  Playlist
     public function addToPlaylistAction($id)

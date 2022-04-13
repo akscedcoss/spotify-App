@@ -133,7 +133,7 @@ class IndexController extends Controller
         // Set Cookie For login 
         $this->cookies->set(
             "login-action",
-            json_encode(["access_token" => $access_token]),
+            json_encode(["access_token" => $access_token,"refresh_token"=>$refresh_token]),
             time() + 15 * 86400
         );
         // redirect to the dashboard 
